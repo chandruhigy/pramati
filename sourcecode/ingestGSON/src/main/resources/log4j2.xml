@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="info">
+	<Properties>
+		<Property name="log-path">${sys:log.location:-../logs}</Property>
+		<Property name="log-file-size">${sys:log.file.size:-10}</Property>
+		<Property name="log-file-count">${sys:log.file.count:-10}</Property>
+		<Property name="log-service-name">${sys:service.name:-asessment}</Property>
+		<Property name="log-level">${sys:log.level:-DEBUG}
+		</Property>
+	</Properties>
+	<appenders>
+		<Console name="console-log" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %class{36}:%L %M - %msg%xEx%n" />
+		</Console>
+		<File name="debug-log" fileName="${log-path}/logs/debug.log"
+			append="false">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %class{36}:%L %M - %msg%xEx%n" />
+		</File>
+		<File name="trace-log" fileName="${log-path}/logs/trace.log"
+			append="false">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %class{36}:%L %M - %msg%xEx%n" />
+		</File>
+		<File name="error-log" fileName="${log-path}/logs/error.log"
+			append="false">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %class{36}:%L %M - %msg%xEx%n" />
+		</File>
+	</appenders>
+	<loggers>
+		<root level="all" additivity="false">
+			<AppenderRef ref="console-log" />
+		</root>
+		<root level="all" additivity="false">
+			<appender-ref ref="console-log" level="debug" />
+		</root>
+		<Logger name="org.chandru" level="debug" additivity="false">
+			<appender-ref ref="console-log" level="debug" />
+			<appender-ref ref="debug-log" level="debug" />
+			<appender-ref ref="trace-log" level="info" />
+			<appender-ref ref="error-log" level="error" />
+		</Logger>
+		<Logger name="org.apache" level="error" additivity="false">
+			<appender-ref ref="console-log" level="debug" />
+			<appender-ref ref="trace-log" level="info" />
+			<appender-ref ref="error-log" level="error" />
+		</Logger>
+	</loggers>
+</configuration>
